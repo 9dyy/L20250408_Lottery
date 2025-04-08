@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <random>
 
 #define LOTTERYMAX 45
@@ -33,7 +33,7 @@ void Init()
 
 int RandNum()
 {
-    // intÇü 1 ~ 45±îÁö Áß ·£´ı Á¤¼ö (1, 45Æ÷ÇÔ)
+    // intí˜• 1 ~ 45ê¹Œì§€ ì¤‘ ëœë¤ ì •ìˆ˜ (1, 45í¬í•¨)
     static mt19937 gen = mt19937((unsigned int)time(NULL));
     static uniform_int_distribution<> dist(1, LOTTERYMAX);
     return dist(gen);
