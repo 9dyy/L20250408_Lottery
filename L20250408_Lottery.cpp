@@ -1,52 +1,55 @@
 ﻿#include <iostream>
-#include <random>
-
-#define LOTTERYMAX 45
+#include <Windows.h>
 
 using namespace std;
 
-int Numbers[LOTTERYMAX] = {};
+struct FVector2D
+{
+    int X;
+    int Y;
+};
 
-void Init();
-int RandNum();
-void Shuffle();
+void GotoXY(FVector2D* NewXY)
+{
+    COORD pos = { NewXY->X, NewXY->Y };
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+}
 
 int main()
 {
-    Init();
-    Shuffle();
-    for (int i = 0; i < 6; i++)
-    {
-        cout << Numbers[i] << " ";
-    }
+    FVector2D* Position = new FVector2D;
+    Position->X = 0;
+    Position->Y = 0;
 
+    while (1)
+    {
+        system("cls");
+        if (GetAsyncKeyState(VK_UP) & 0x8000)
+        {
+            if (Position->Y > 0)
+            {
+                Position->Y--;
+            }
+        }
+        if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+        {
+            Position->Y++;
+        }
+        if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+        {
+            if (Position->X > 0)
+            {
+                Position->X--;
+            }
+        }
+        if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+        {
+            Position->X++;
+        }
+        GotoXY(Position);
+        cout << Position->X << "," << Position->Y;
+        Sleep(5);
+    }
+    
     return 0;
-}
-
-void Init()
-{
-    for (int i = 0; i < LOTTERYMAX; i++)
-    {
-        Numbers[i] = i + 1;
-    }
-}
-
-int RandNum()
-{
-    // int형 1 ~ 45까지 중 랜덤 정수 (1, 45포함)
-    static mt19937 gen = mt19937((unsigned int)time(NULL));
-    static uniform_int_distribution<> dist(1, LOTTERYMAX);
-    return dist(gen);
-}
-
-void Shuffle()
-{
-    for (int i = 0; i < LOTTERYMAX * 10000; i++)
-    {
-        int a = RandNum() - 1;
-        int b = RandNum() - 1;
-        int temp = Numbers[a];
-        Numbers[a] = Numbers[b];
-        Numbers[b] = temp;
-    }
 }
